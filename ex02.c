@@ -43,12 +43,14 @@ int Length(List L) {
   return len;
 }
 
-void Insert(elemtype x, List p) {  // pの直後に挿入する
+List Insert(elemtype x, List p) {
+  // pの末尾にxを追加する
   struct Lcell *newcell;
   newcell = GetNewCell();
   newcell->element = x;
-  newcell->next = p->next;
-  p->next = newcell;
+  newcell->next = p;
+  Tail(p)->next = newcell;
+  return p;
 }
 
 List Merge(List L1, List L2) {
@@ -56,20 +58,20 @@ List Merge(List L1, List L2) {
   // p1とp2を比較しながら末尾にインサートする
   while (p1 != L1 && p2 != L2) {  // L1とL2はヘッダ
     if (p1->element < p2->element) {
-      Insert(p1->element, Tail(head));
+      Insert(p1->element, head);
       p1 = p1->next;
     } else {
-      Insert(p2->element, Tail(head));
+      Insert(p2->element, head);
       p2 = p2->next;
     }
   }
   // p1かp2の要素がまだ残っている場合はマージした後に付け加える
   while (p1 != L1) {
-    Insert(p1->element, Tail(head));
+    Insert(p1->element, head);
     p1 = p1->next;
   }
   while (p2 != L2) {
-    Insert(p2->element, Tail(head));
+    Insert(p2->element, head);
     p2 = p2->next;
   }
   return head;
@@ -102,11 +104,11 @@ int main() {
   printf("要素をリストL1, L2の末尾に追加します\n");
   printf("L1の要素を入力\n");
   while(scanf("%d", &buf) != EOF) {
-    Insert(buf, Tail(L1));
+    L1 = Insert(buf, L1);
   }
   printf("L2の要素を入力\n");
   while(scanf("%d", &buf) != EOF) {
-    Insert(buf, Tail(L2));
+    L2 = Insert(buf, L2);
   }
   printf("L1の長さは %d\n", Length(L1));
   printf("L2の長さは %d\n", Length(L2));
