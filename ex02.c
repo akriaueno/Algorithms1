@@ -43,7 +43,6 @@ int Length(List L) {
   return len;
 }
 
-
 void Insert(elemtype x, List p) {  // pの直後に挿入する
   struct Lcell *newcell;
   newcell = GetNewCell();
@@ -94,7 +93,6 @@ void Delete(List L) {
     p = Tail(L);
   }
 }
-
 
 int main() {
   List L1, L2;
